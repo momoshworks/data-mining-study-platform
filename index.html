@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>تنقيب البيانات واستكشافها | منصة المذاكرة والاختبارات التفاعلية CSC213</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Fira+Code:wght@400;600&family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- KaTeX for Math Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+  
+  <!-- Master Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- Top Navbar -->
+    <header class="top-navbar">
+      <div class="nav-content">
+        <a href="#" class="brand-section" onclick="switchTab('overview')">
+          <div class="brand-icon">
+            <i class="fa-solid fa-chart-diagram"></i>
+          </div>
+          <div class="brand-info">
+            <h1>تنقيب البيانات واستكشافها</h1>
+            <span>جامعة الدلتا | CSC213 | د. سامية محمد</span>
+          </div>
+        </a>
+
+        <!-- Search Bar -->
+        <div class="search-wrapper">
+          <i class="fa-solid fa-magnifying-glass search-icon"></i>
+          <input type="text" id="global-search" class="search-input" placeholder="ابحث في المحاضرات، القوانين والمفاهيم..." oninput="handleSearch(this.value)">
+        </div>
+
+        <!-- Controls -->
+        <div class="nav-actions">
+          <button id="sound-toggle-btn" class="sound-btn" title="تبديل المؤثرات الصوتية" onclick="toggleSound()">
+            <i class="fa-solid fa-volume-high"></i>
+          </button>
+          <button id="theme-toggle-btn" class="theme-btn" title="تبديل الوضع الليلي / الفاتح" onclick="toggleTheme()">
+            <i class="fa-solid fa-moon"></i>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Navigation Tabs Strip -->
+    <nav class="nav-tabs-strip">
+      <ul class="nav-tabs-list">
+        <li>
+          <button class="tab-btn active" data-tab="overview" onclick="switchTab('overview')">
+            <i class="fa-solid fa-house"></i> نظرة عامة والمقرر
+          </button>
+        </li>
+        <li>
+          <button class="tab-btn" data-tab="ch1" onclick="switchTab('ch1')">
+            <i class="fa-solid fa-database"></i> الفصل 1: مقدمة و KDD
+            <span class="tab-badge">3 أجزاء</span>
+          </button>
+        </li>
+        <li>
+          <button class="tab-btn" data-tab="ch2" onclick="switchTab('ch2')">
+            <i class="fa-solid fa-chart-pie"></i> الفصل 2: فهم البيانات
+            <span class="tab-badge">4 أجزاء</span>
+          </button>
+        </li>
+        <li>
+          <button class="tab-btn" data-tab="ch3" onclick="switchTab('ch3')">
+            <i class="fa-solid fa-filter"></i> الفصل 3: المعالجة المسبقة
+            <span class="tab-badge">4 أجزاء</span>
+          </button>
+        </li>
+        <li>
+          <button class="tab-btn" data-tab="ch8" onclick="switchTab('ch8')">
+            <i class="fa-solid fa-sitemap"></i> الفصل 8: التصنيف وشجرة القرار
+            <span class="tab-badge">3 أجزاء</span>
+          </button>
+        </li>
+        <li>
+          <button class="tab-btn" data-tab="flashcards" onclick="switchTab('flashcards')">
+            <i class="fa-solid fa-layer-group"></i> بطاقات الاستذكار
+            <span class="tab-badge" id="fc-count-badge">35 بطاقة</span>
+          </button>
+        </li>
+        <li>
+          <button class="tab-btn" data-tab="lab" onclick="switchTab('lab')">
+            <i class="fa-solid fa-flask-vial"></i> المختبر والحاسبات
+            <span class="tab-badge">5 أدوات</span>
+          </button>
+        </li>
+        <li>
+          <button class="tab-btn" data-tab="exam" onclick="switchTab('exam')">
+            <i class="fa-solid fa-graduation-cap"></i> الامتحان النهائي
+            <span class="tab-badge">30 سؤال</span>
+          </button>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="main-wrapper">
+      
+      <!-- TAB 1: OVERVIEW -->
+      <section id="view-overview" class="tab-view active">
+        <div class="hero-banner">
+          <div class="hero-header">
+            <div class="hero-title-area">
+              <h2>مقرر تنقيب البيانات واستكشافها (Data Mining and Exploration)</h2>
+              <p>منصة تعليمية تفاعلية شاملة مصممة خصيصاً لطلاب كلية الحاسبات والمعلومات بجامعة الدلتا، تجمع الشرح الأكاديمي المفصل، الرسوم البيانية، القوانين الرياضية، بطاقات التكرار المتباعد، والمختبر الإحصائي التفاعلي.</p>
+            </div>
+            <div class="hero-meta">
+              <div class="meta-item"><i class="fa-solid fa-graduation-cap"></i> CSC213</div>
+              <div class="meta-item"><i class="fa-solid fa-chalkboard-user"></i> د. سامية محمد عبد الحليم</div>
+              <div class="meta-item"><i class="fa-solid fa-building-columns"></i> جامعة الدلتا للعلوم والتكنولوجيا</div>
+              <div class="meta-item"><i class="fa-solid fa-clock"></i> 3 ساعات معتمدة</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="course-grid">
+          <div class="card">
+            <div class="card-title">
+              <i class="fa-solid fa-book-bookmark"></i>
+              <h3>المراجع الأكاديمية المعتمدة</h3>
+            </div>
+            <p><strong>1. Data Mining: Concepts and Techniques (3rd Ed.)</strong><br>Jiawei Han, Micheline Kamber, Jian Pei (Elsevier / Morgan Kaufmann 2012).</p>
+            <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 0.75rem 0;">
+            <p><strong>2. Practical Machine Learning Tools and Techniques (4th Ed.)</strong><br>Ian H. Witten & Eibe Frank (2016).</p>
+          </div>
+
+          <div class="card">
+            <div class="card-title">
+              <i class="fa-solid fa-list-check"></i>
+              <h3>توزيع درجات المقرر (Grading Scheme)</h3>
+            </div>
+            <table class="grading-table">
+              <tbody>
+                <tr>
+                  <td>الكويزات والتكليفات (Quizzes & Assignments)</td>
+                  <td><span class="weight-badge">10%</span></td>
+                </tr>
+                <tr>
+                  <td>المشاركة والأنشطة (Participation)</td>
+                  <td><span class="weight-badge">10%</span></td>
+                </tr>
+                <tr>
+                  <td>امتحان منتصف الفصل (Midterm Exam)</td>
+                  <td><span class="weight-badge">20%</span></td>
+                </tr>
+                <tr>
+                  <td>المشروع العملي النهائي (Final Project)</td>
+                  <td><span class="weight-badge">20%</span></td>
+                </tr>
+                <tr>
+                  <td>الامتحان النظري النهائي (Final Exam)</td>
+                  <td><span class="weight-badge">40%</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="card">
+            <div class="card-title">
+              <i class="fa-solid fa-compass"></i>
+              <h3>محتويات المنصة وأقسامها</h3>
+            </div>
+            <ul style="padding-right: 1.25rem; color: var(--text-secondary);">
+              <li><strong>4 فصول أكاديمية كاملة:</strong> شرح مدعم بالأمثلة المحلولة والقوانين.</li>
+              <li><strong>كويز فوري بعد كل جزء:</strong> للتأكد من رسوخ الأفكار والشرح التفصيلي للحل.</li>
+              <li><strong>مختبر إحصائي حي:</strong> حساب ملخص الأعداد الخمسة، الصناديق، الشواذ، جاكارد، والتطبيع.</li>
+              <li><strong>حاسبة مربع كاي ($\chi^2$) وجيني:</strong> لحساب الاستقلالية وكسب انقسام شجرة القرار.</li>
+              <li><strong>محاكي الاختبار النهائي:</strong> 30 سؤالاً شاملاً مع مؤقت وعد تنازلي وشهادة إنجاز.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; margin-top: 1.5rem;">
+          <button class="calc-btn" style="padding: 0.85rem 2rem; font-size: 1.05rem;" onclick="switchTab('ch1')">
+            <i class="fa-solid fa-play"></i> ابدأ دراسة الفصل الأول الآن
+          </button>
+          <button class="fc-btn" style="padding: 0.85rem 2rem; font-size: 1.05rem;" onclick="switchTab('lab')">
+            <i class="fa-solid fa-flask"></i> الدخول إلى المختبر التفاعلي
+          </button>
+          <button class="fc-btn know" style="padding: 0.85rem 2rem; font-size: 1.05rem;" onclick="switchTab('exam')">
+            <i class="fa-solid fa-graduation-cap"></i> خوض الاختبار التجريبي
+          </button>
+        </div>
+      </section>
+
+      <!-- TAB 2: CHAPTER 1 -->
+      <section id="view-ch1" class="tab-view">
+        <div class="chapter-container">
+          <aside class="chapter-toc">
+            <div class="toc-title"><i class="fa-solid fa-list-ul"></i> فهرس الفصل الأول</div>
+            <ul class="toc-list" id="toc-ch1">
+              <!-- Rendered via JS -->
+            </ul>
+          </aside>
+          <div class="chapter-content" id="content-ch1">
+            <!-- Rendered via JS -->
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 3: CHAPTER 2 -->
+      <section id="view-ch2" class="tab-view">
+        <div class="chapter-container">
+          <aside class="chapter-toc">
+            <div class="toc-title"><i class="fa-solid fa-list-ul"></i> فهرس الفصل الثاني</div>
+            <ul class="toc-list" id="toc-ch2">
+              <!-- Rendered via JS -->
+            </ul>
+          </aside>
+          <div class="chapter-content" id="content-ch2">
+            <!-- Rendered via JS -->
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 4: CHAPTER 3 -->
+      <section id="view-ch3" class="tab-view">
+        <div class="chapter-container">
+          <aside class="chapter-toc">
+            <div class="toc-title"><i class="fa-solid fa-list-ul"></i> فهرس الفصل الثالث</div>
+            <ul class="toc-list" id="toc-ch3">
+              <!-- Rendered via JS -->
+            </ul>
+          </aside>
+          <div class="chapter-content" id="content-ch3">
+            <!-- Rendered via JS -->
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 5: CHAPTER 8 (Classification) -->
+      <section id="view-ch8" class="tab-view">
+        <div class="chapter-container">
+          <aside class="chapter-toc">
+            <div class="toc-title"><i class="fa-solid fa-list-ul"></i> فهرس الفصل الثامن</div>
+            <ul class="toc-list" id="toc-ch8">
+              <!-- Rendered via JS -->
+            </ul>
+          </aside>
+          <div class="chapter-content" id="content-ch8">
+            <!-- Rendered via JS -->
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 6: FLASHCARDS -->
+      <section id="view-flashcards" class="tab-view">
+        <div class="flashcards-container">
+          
+          <div class="flashcards-controls">
+            <div class="filter-group" id="fc-filter-group">
+              <button class="filter-btn active" data-filter="all" onclick="filterFlashcards('all')">الكل (35)</button>
+              <button class="filter-btn" data-filter="ch1" onclick="filterFlashcards('ch1')">الفصل 1</button>
+              <button class="filter-btn" data-filter="ch2" onclick="filterFlashcards('ch2')">الفصل 2</button>
+              <button class="filter-btn" data-filter="ch3" onclick="filterFlashcards('ch3')">الفصل 3</button>
+              <button class="filter-btn" data-filter="ch8" onclick="filterFlashcards('ch8')">الفصل 8</button>
+            </div>
+            <div id="fc-counter" style="font-weight: 700; color: var(--primary);">1 / 35</div>
+          </div>
+
+          <div class="flashcard-progress-bar">
+            <div id="fc-progress-fill" class="flashcard-progress-fill"></div>
+          </div>
+
+          <div class="flashcard-scene" onclick="flipFlashcard()">
+            <div id="active-flashcard" class="flashcard">
+              <!-- Front Face -->
+              <div class="flashcard-face flashcard-front">
+                <div class="card-category-badge" id="fc-category">مفاهيم KDD</div>
+                <div class="card-main-body">
+                  <h3 id="fc-front-text">تنقيب البيانات (Data Mining)</h3>
+                  <div class="card-term-en" id="fc-term-en">Data Mining</div>
+                </div>
+                <div class="card-hint">
+                  <i class="fa-solid fa-arrow-rotate-right"></i> انقر على البطاقة لقلبها وقراءة الشرح
+                </div>
+              </div>
+
+              <!-- Back Face -->
+              <div class="flashcard-face flashcard-back">
+                <div class="card-category-badge" style="background: rgba(16, 185, 129, 0.2); color: var(--accent);">
+                  الشرح والتعريف
+                </div>
+                <div class="card-main-body">
+                  <p class="card-explanation-text" id="fc-back-text">
+                    الاستخراج غير البديهي والآلي للأنماط والمعارف الضمنية، غير المعروفة مسبقاً، والمفيدة عملياً من كميات هائلة من البيانات.
+                  </p>
+                </div>
+                <div class="card-hint">
+                  <i class="fa-solid fa-rotate-left"></i> انقر للعودة للوجه الأمامي
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flashcard-actions">
+            <button class="fc-btn" onclick="prevFlashcard()">
+              <i class="fa-solid fa-chevron-right"></i> البطاقة السابقة
+            </button>
+            
+            <div style="display: flex; gap: 0.5rem;">
+              <button class="fc-btn review" title="أحتاج إعادة مراجعته لاحقاً" onclick="markCardMastery(false)">
+                <i class="fa-solid fa-clock-rotate-left"></i> مراجعة
+              </button>
+              <button class="fc-btn know" title="أتقنته تماماً" onclick="markCardMastery(true)">
+                <i class="fa-solid fa-check"></i> متقن
+              </button>
+            </div>
+
+            <button class="fc-btn" onclick="nextFlashcard()">
+              البطاقة التالية <i class="fa-solid fa-chevron-left"></i>
+            </button>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- TAB 7: INTERACTIVE LAB TOOLS -->
+      <section id="view-lab" class="tab-view">
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <h2 style="font-size: 1.75rem; font-weight: 800; color: var(--primary);">
+            <i class="fa-solid fa-flask-vial"></i> المختبر الإحصائي والحاسبات الرياضية التفاعلية
+          </h2>
+          <p style="color: var(--text-secondary); max-width: 750px; margin: 0.5rem auto;">
+            أدوات حسابية تفاعلية تحاكي مسائل وتدريبات المحاضرات: جرب إدخال الأرقام بنفسك لمشاهدة المخططات، كشف الشواذ، حساب معاملات التشابه، واختبار مربع كاي!
+          </p>
+        </div>
+
+        <div class="lab-grid">
+          
+          <!-- Tool 1: Five-Number Summary & Boxplot Outlier Detector -->
+          <div class="lab-tool-card">
+            <div class="tool-header">
+              <div class="tool-icon"><i class="fa-solid fa-chart-column"></i></div>
+              <div>
+                <h4>ملخص الأعداد الخمسة وكاشف الشواذ بالصندوق</h4>
+                <small style="color: var(--text-muted);">Five-Number Summary & Boxplot Outliers</small>
+              </div>
+            </div>
+            <div class="tool-body">
+              <div class="input-group">
+                <label>أدخل قائمة الأرقام مفصولة بفواصل أو مسافات:</label>
+                <input type="text" id="tool1-input" class="tool-input" value="10, 15, 20, 25, 30, 35, 40, 45, 50, 100">
+              </div>
+              <div class="preset-btns">
+                <button class="preset-btn" onclick="loadTool1Preset('slide')">مثال المحاضرة (10..100)</button>
+                <button class="preset-btn" onclick="loadTool1Preset('salaries')">رواتب (3k..85k)</button>
+                <button class="preset-btn" onclick="loadTool1Preset('normal')">توزيع متماثل</button>
+              </div>
+              <button class="calc-btn" onclick="calculateTool1()">
+                <i class="fa-solid fa-calculator"></i> احسب ملخص الخمسة والشاربين
+              </button>
+
+              <div id="tool1-result" class="tool-result" style="display: none;">
+                <!-- Result rows -->
+              </div>
+              <svg id="tool1-svg" class="boxplot-svg" viewBox="0 0 400 100" style="display: none;"></svg>
+            </div>
+          </div>
+
+          <!-- Tool 2: Similarity & Dissimilarity Calculator (Nominal & Jaccard) -->
+          <div class="lab-tool-card">
+            <div class="tool-header">
+              <div class="tool-icon"><i class="fa-solid fa-scale-balanced"></i></div>
+              <div>
+                <h4>حاسبة التشابه ومعامل جاكارد للسمات الثنائية</h4>
+                <small style="color: var(--text-muted);">Binary Similarity & Jaccard Coefficient</small>
+              </div>
+            </div>
+            <div class="tool-body">
+              <p style="font-size: 0.82rem; color: var(--text-muted);">
+                أدخل أعداد جدول التوافق الثنائي بين الكائنين (أو اختر من الأمثلة):
+              </p>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
+                <div class="input-group">
+                  <label>q (كلاهما 1):</label>
+                  <input type="number" id="t2-q" class="tool-input" value="1">
+                </div>
+                <div class="input-group">
+                  <label>r (الأول 1 والثاني 0):</label>
+                  <input type="number" id="t2-r" class="tool-input" value="1">
+                </div>
+                <div class="input-group">
+                  <label>s (الأول 0 والثاني 1):</label>
+                  <input type="number" id="t2-s" class="tool-input" value="1">
+                </div>
+                <div class="input-group">
+                  <label>t (كلاهما 0):</label>
+                  <input type="number" id="t2-t" class="tool-input" value="3">
+                </div>
+              </div>
+              <div class="preset-btns">
+                <button class="preset-btn" onclick="loadTool2Preset('jack-mary')">مثال المحاضرة (Jack & Mary)</button>
+                <button class="preset-btn" onclick="loadTool2Preset('jack-jim')">مثال (Jack & Jim)</button>
+              </div>
+              <button class="calc-btn" onclick="calculateTool2()">
+                <i class="fa-solid fa-calculator"></i> احسب المسافات ومعامل جاكارد
+              </button>
+
+              <div id="tool2-result" class="tool-result" style="display: none;"></div>
+            </div>
+          </div>
+
+          <!-- Tool 3: Normalization Scaler (Min-Max & Z-Score & Decimal) -->
+          <div class="lab-tool-card">
+            <div class="tool-header">
+              <div class="tool-icon"><i class="fa-solid fa-sliders"></i></div>
+              <div>
+                <h4>أداة تطبيع ومعايرة البيانات (Data Scaler)</h4>
+                <small style="color: var(--text-muted);">Min-Max, Z-Score & Decimal Scaling</small>
+              </div>
+            </div>
+            <div class="tool-body">
+              <div class="input-group">
+                <label>القيمة المراد معايرتها ($v$):</label>
+                <input type="number" id="t3-val" class="tool-input" value="73600">
+              </div>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
+                <div class="input-group">
+                  <label>الحد الأدنى ($\min$):</label>
+                  <input type="number" id="t3-min" class="tool-input" value="12000">
+                </div>
+                <div class="input-group">
+                  <label>الحد الأقصى ($\max$):</label>
+                  <input type="number" id="t3-max" class="tool-input" value="98000">
+                </div>
+              </div>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
+                <div class="input-group">
+                  <label>المتوسط الحسابي ($\mu$):</label>
+                  <input type="number" id="t3-mean" class="tool-input" value="54000">
+                </div>
+                <div class="input-group">
+                  <label>الانحراف المعياري ($\sigma$):</label>
+                  <input type="number" id="t3-std" class="tool-input" value="16000">
+                </div>
+              </div>
+              <div class="preset-btns">
+                <button class="preset-btn" onclick="loadTool3Preset('slide-salary')">مثال الراتب 73,600$</button>
+                <button class="preset-btn" onclick="loadTool3Preset('decimal-example')">مثال 986 إلى 917</button>
+              </div>
+              <button class="calc-btn" onclick="calculateTool3()">
+                <i class="fa-solid fa-calculator"></i> معايرة بالقوانين الثلاثة
+              </button>
+
+              <div id="tool3-result" class="tool-result" style="display: none;"></div>
+            </div>
+          </div>
+
+          <!-- Tool 4: Chi-Square (χ²) Independence Test Calculator -->
+          <div class="lab-tool-card">
+            <div class="tool-header">
+              <div class="tool-icon"><i class="fa-solid fa-table-cells-large"></i></div>
+              <div>
+                <h4>حاسبة اختبار مربع كاي ($\chi^2$) للاستقلالية</h4>
+                <small style="color: var(--text-muted);">Chi-Square Independence Test (2x2 Table)</small>
+              </div>
+            </div>
+            <div class="tool-body">
+              <p style="font-size: 0.82rem; color: var(--text-muted);">
+                جدول التوافق $2 	imes 2$ (التكرارات الملاحظة $O_{ij}$):
+              </p>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
+                <div class="input-group">
+                  <label>O11 (ذكور - روايات):</label>
+                  <input type="number" id="t4-o11" class="tool-input" value="250">
+                </div>
+                <div class="input-group">
+                  <label>O12 (ذكور - علمي):</label>
+                  <input type="number" id="t4-o12" class="tool-input" value="200">
+                </div>
+                <div class="input-group">
+                  <label>O21 (إناث - روايات):</label>
+                  <input type="number" id="t4-o21" class="tool-input" value="50">
+                </div>
+                <div class="input-group">
+                  <label>O22 (إناث - علمي):</label>
+                  <input type="number" id="t4-o22" class="tool-input" value="1000">
+                </div>
+              </div>
+              <div class="preset-btns">
+                <button class="preset-btn" onclick="loadTool4Preset('lecture-reading')">مثال المحاضرة (1500 قارئ)</button>
+                <button class="preset-btn" onclick="loadTool4Preset('independent')">حالة استقلال تام</button>
+              </div>
+              <button class="calc-btn" onclick="calculateTool4()">
+                <i class="fa-solid fa-calculator"></i> احسب التكرارات المتوقعة وقيمة $\chi^2$
+              </button>
+
+              <div id="tool4-result" class="tool-result" style="display: none;"></div>
+            </div>
+          </div>
+
+          <!-- Tool 5: Decision Tree Gini Impurity & Split Gain -->
+          <div class="lab-tool-card" style="grid-column: 1 / -1;">
+            <div class="tool-header">
+              <div class="tool-icon"><i class="fa-solid fa-tree"></i></div>
+              <div>
+                <h4>حاسبة مؤشر جيني وكسب انقسام شجرة القرار (Gini Index & Split Gain)</h4>
+                <small style="color: var(--text-muted);">Decision Tree Impurity & Maximum Gain Calculator</small>
+              </div>
+            </div>
+            <div class="tool-body">
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem;">
+                <div class="input-group">
+                  <label><strong>العقدة الأم (Parent Node):</strong></label>
+                  <div style="display: flex; gap: 0.5rem;">
+                    <input type="number" id="t5-p-yes" class="tool-input" placeholder="Yes" value="6">
+                    <input type="number" id="t5-p-no" class="tool-input" placeholder="No" value="4">
+                  </div>
+                </div>
+                <div class="input-group">
+                  <label><strong>الابن الأيسر (Left Child):</strong></label>
+                  <div style="display: flex; gap: 0.5rem;">
+                    <input type="number" id="t5-l-yes" class="tool-input" placeholder="Yes" value="4">
+                    <input type="number" id="t5-l-no" class="tool-input" placeholder="No" value="0">
+                  </div>
+                </div>
+                <div class="input-group">
+                  <label><strong>الابن الأيمن (Right Child):</strong></label>
+                  <div style="display: flex; gap: 0.5rem;">
+                    <input type="number" id="t5-r-yes" class="tool-input" placeholder="Yes" value="2">
+                    <input type="number" id="t5-r-no" class="tool-input" placeholder="No" value="4">
+                  </div>
+                </div>
+              </div>
+              <div class="preset-btns">
+                <button class="preset-btn" onclick="loadTool5Preset('lecture-gini')">مثال المحاضرة (Parent 6 Yes / 4 No)</button>
+                <button class="preset-btn" onclick="loadTool5Preset('pure-split')">تقسيم نقي تماماً (Pure)</button>
+              </div>
+              <button class="calc-btn" onclick="calculateTool5()">
+                <i class="fa-solid fa-calculator"></i> احسب مؤشرات جيني ومقدار الكسب ($\Delta	ext{Gini}$)
+              </button>
+
+              <div id="tool5-result" class="tool-result" style="display: none;"></div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- TAB 8: FINAL EXAM SIMULATOR -->
+      <section id="view-exam" class="tab-view">
+        <div class="exam-container">
+          
+          <!-- Start Card -->
+          <div id="exam-start-card" class="exam-start-card">
+            <h2 style="font-size: 2rem; font-weight: 800; color: var(--primary); margin-bottom: 0.5rem;">
+              <i class="fa-solid fa-graduation-cap"></i> محاكي الامتحان النهائي لمقرر تنقيب البيانات
+            </h2>
+            <p style="color: var(--text-secondary); max-width: 650px; margin: 0 auto;">
+              اختبار شامل يحاكي معايير وأسئلة امتحانات جامعة الدلتا لمقرر CSC213، يغطي الفصول الأربعة بمسائل حسابية ومفاهيم نظرية دقيقة.
+            </p>
+
+            <div class="exam-meta-grid">
+              <div class="exam-meta-box">
+                <i class="fa-solid fa-clipboard-question"></i>
+                <h5>30 سؤالاً</h5>
+                <span>اختيار من متعدد شامل</span>
+              </div>
+              <div class="exam-meta-box">
+                <i class="fa-solid fa-stopwatch"></i>
+                <h5>40 دقيقة</h5>
+                <span>مؤقت زمني تنازلي</span>
+              </div>
+              <div class="exam-meta-box">
+                <i class="fa-solid fa-award"></i>
+                <h5>70%</h5>
+                <span>نسبة الاجتياز ونيل الشهادة</span>
+              </div>
+              <div class="exam-meta-box">
+                <i class="fa-solid fa-certificate"></i>
+                <h5>شهادة إنجاز</h5>
+                <span>قابلة للطباعة فور الاجتياز</span>
+              </div>
+            </div>
+
+            <div style="max-width: 400px; margin: 1.5rem auto;">
+              <label style="display: block; font-weight: 600; margin-bottom: 0.5rem;">أدخل اسمك الكريم لإصداره في الشهادة:</label>
+              <input type="text" id="student-name-input" class="tool-input" placeholder="اكتب اسم الطالب ثلاثياً..." style="text-align: center; font-size: 1.05rem;">
+            </div>
+
+            <button class="start-exam-btn" onclick="startExam()">
+              <i class="fa-solid fa-play"></i> ابدأ الامتحان الآن
+            </button>
+          </div>
+
+          <!-- Active Exam Interface -->
+          <div id="exam-interface" class="exam-interface">
+            <div class="exam-status-bar">
+              <div>
+                <span style="color: var(--text-muted); font-size: 0.85rem;">السؤال الحالي:</span>
+                <strong id="exam-current-q-num" style="font-size: 1.15rem; color: var(--text-primary); margin-right: 0.5rem;">1 / 30</strong>
+              </div>
+              <div class="exam-timer" id="exam-timer-display">
+                <i class="fa-solid fa-clock"></i> <span id="timer-text">40:00</span>
+              </div>
+              <button class="fc-btn" style="padding: 0.4rem 0.85rem; font-size: 0.8rem;" onclick="finishExam(true)">
+                <i class="fa-solid fa-flag-checkered"></i> إنهاء وتسليم الامتحان
+              </button>
+            </div>
+
+            <!-- Palette -->
+            <div class="exam-palette" id="exam-palette">
+              <!-- Rendered via JS -->
+            </div>
+
+            <!-- Active Question Box -->
+            <div class="section-block" id="exam-question-box">
+              <!-- Rendered via JS -->
+            </div>
+
+            <div style="display: flex; justify-content: space-between; margin-top: 1.5rem;">
+              <button class="fc-btn" onclick="examPrevQ()">
+                <i class="fa-solid fa-chevron-right"></i> السؤال السابق
+              </button>
+              <button class="fc-btn" onclick="examNextQ()">
+                السؤال التالي <i class="fa-solid fa-chevron-left"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Results Card & Certificate -->
+          <div id="exam-results-card" class="exam-results-card">
+            <h2 id="result-status-title" style="font-size: 2rem; font-weight: 800; color: var(--accent);">
+              🎉 مبارك! لقد اجتزت الامتحان بنجاح
+            </h2>
+            <p id="result-status-desc" style="color: var(--text-secondary); margin-top: 0.5rem;">
+              تهانينا! لقد أظهرت استيعاباً ممتازاً لمفاهيم وخوارزميات تنقيب البيانات.
+            </p>
+
+            <div class="score-circle">
+              <span id="result-score-percent" class="score-percent">85%</span>
+              <span id="result-score-ratio" class="score-ratio">25.5 / 30</span>
+            </div>
+
+            <div id="certificate-wrapper" class="certificate-preview">
+              <div class="cert-header">
+                <h3>شهادة إنجاز وتفوق أكاديمي</h3>
+                <h4>جامعة الدلتا للعلوم والتكنولوجيا — كلية الحاسبات والمعلومات</h4>
+              </div>
+              <div class="cert-body">
+                <p>تشهد المنصة التعليمية لمقرر تنقيب البيانات واستكشافها بأن الطالب / الطالبة:</p>
+                <div class="cert-student-name" id="cert-student-name">اسم الطالب</div>
+                <p>قد اجتاز بنجاح فائق الامتحان النهائي التفاعلي لمقرر:</p>
+                <p style="font-weight: 800; color: #0284c7; font-size: 1.25rem;">
+                  Data Mining and Exploration (CSC213)
+                </p>
+                <p>بنسبة نجاح عامة بلغت: <strong id="cert-grade" style="color: #059669;">85% (امتياز)</strong></p>
+                <p style="font-size: 0.85rem; color: #64748b; margin-top: 1rem;">
+                  تاريخ المنح: <span id="cert-date">12 نوفمبر 2026</span>
+                </p>
+              </div>
+              <div class="cert-footer">
+                <div class="cert-sign">
+                  <span>أستاذ المادة:</span>
+                  <strong>د. سامية محمد عبد الحليم</strong>
+                </div>
+                <div style="font-size: 2.5rem; color: #0ea5e9;">
+                  <i class="fa-solid fa-certificate"></i>
+                </div>
+                <div class="cert-sign">
+                  <span>القسم الأكاديمي:</span>
+                  <strong>القسم العام — حاسبات ومعلومات</strong>
+                </div>
+              </div>
+            </div>
+
+            <div style="display: flex; justify-content: center; gap: 1rem; margin-top: 2rem;">
+              <button class="calc-btn no-print" onclick="window.print()">
+                <i class="fa-solid fa-print"></i> طباعة وحفظ الشهادة (PDF)
+              </button>
+              <button class="fc-btn no-print" onclick="restartExam()">
+                <i class="fa-solid fa-rotate-right"></i> إعادة الاختبار
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      <div class="footer-content">
+        <p>
+          <strong>منصة استذكار تنقيب البيانات واستكشافها (Data Mining CSC213)</strong>
+        </p>
+        <p>
+          إعداد وتصميم مخصص لطلاب <strong>جامعة الدلتا للعلوم والتكنولوجيا</strong> | تحت إشراف <strong>د. سامية محمد عبد الحليم</strong>
+        </p>
+        <p style="font-size: 0.78rem;">
+          المقرر الأكاديمي: Han, Kamber & Pei (3rd Edition) &bull; تم إعداد المنصة بأعلى معايير المحاكاة التفاعلية والأكاديمية
+        </p>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- Scripts -->
+  <script src="lectures-data.js"></script>
+  <script src="quiz-data.js"></script>
+  <script src="app.js"></script>
+
+</body>
+</html>
